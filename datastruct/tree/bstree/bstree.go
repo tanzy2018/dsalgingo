@@ -7,36 +7,36 @@ import (
 	"reflect"
 )
 
-type Node struct {
+type node struct {
 	val   tree.Comparabler
 	vals  []tree.Comparabler
-	left  *Node
-	right *Node
+	left  *node
+	right *node
 }
 
-func (n *Node) Value() tree.Comparabler {
+func (n *node) Value() tree.Comparabler {
 	return n.val
 }
 
-func (n *Node) Values() []tree.Comparabler {
+func (n *node) Values() []tree.Comparabler {
 	return n.vals
 }
 
 type Tree struct {
 	count               int
-	root                *Node
-	tranFunc            func([]*Node) []tree.Noder
+	root                *node
+	tranFunc            func([]*node) []tree.Noder
 	_type               string
-	_lazyPostOrderStack []*Node
-	_lazyPreOrderStack  []*Node
-	_lazyInOrderStack   []*Node
+	_lazyPostOrderStack []*node
+	_lazyPreOrderStack  []*node
+	_lazyInOrderStack   []*node
 	err                 error
 }
 
 func NewTree() *Tree {
 	return &Tree{
 		count: 0,
-		tranFunc: func(nodes []*Node) []tree.Noder {
+		tranFunc: func(nodes []*node) []tree.Noder {
 			if len(nodes) == 0 {
 				return nil
 			}
@@ -59,7 +59,7 @@ func (tr *Tree) Search(v tree.Comparabler) tree.Noder {
 		tr.err = tree.ErrTypeConflict
 		return nil
 	}
-	res := tr.root.search(&Node{val: v})
+	res := tr.root.search(&node{val: v})
 	if res == nil {
 		tr.err = tree.ErrTargetNotFound
 	}
@@ -75,11 +75,11 @@ func (tr *Tree) Add(v tree.Comparabler) {
 		return
 	}
 	if tr.count == 0 {
-		tr.root = &Node{val: v, vals: []tree.Comparabler{v}}
+		tr.root = &node{val: v, vals: []tree.Comparabler{v}}
 		tr.count++
 		return
 	}
-	if err := tr.root.add(&Node{val: v, vals: []tree.Comparabler{v}}); err == nil {
+	if err := tr.root.add(&node{val: v, vals: []tree.Comparabler{v}}); err == nil {
 		tr.count++
 		return
 	} else {
@@ -106,7 +106,7 @@ func (tr *Tree) Del(v tree.Comparabler) {
 		tr.count--
 		return
 	}
-	if tr.root.del(nil, &Node{val: v}) {
+	if tr.root.del(nil, &node{val: v}) {
 		tr.count--
 		if tr.count == 0 {
 			tr.root = nil
@@ -126,7 +126,7 @@ func (tr *Tree) Update(v tree.Comparabler) {
 		tr.err = tree.ErrTypeConflict
 		return
 	}
-	if tr.root.update(&Node{val: v}) {
+	if tr.root.update(&node{val: v}) {
 		return
 	}
 	tr.err = tree.ErrTargetNotFound
@@ -176,7 +176,7 @@ func (tr *Tree) HasNextPreOrderTraverse() bool {
 }
 
 func (tr *Tree) ResetPreOrderTraverse() {
-	tr._lazyPreOrderStack = make([]*Node, 0, tr.count+1)
+	tr._lazyPreOrderStack = make([]*node, 0, tr.count+1)
 	if tr.root != nil {
 		tr._lazyPreOrderStack = append(tr._lazyPreOrderStack, tr.root)
 	}
@@ -195,7 +195,7 @@ func (tr *Tree) HasNextInOrderTraverse() bool {
 
 func (tr *Tree) ResetInOrderTraverse() {
 	// TODO:: 这里需要补充
-	tr._lazyInOrderStack = make([]*Node, 0, tr.count+1)
+	tr._lazyInOrderStack = make([]*node, 0, tr.count+1)
 	if tr.root != nil {
 		tr._lazyInOrderStack = append(tr._lazyInOrderStack, tr.root)
 	}
@@ -213,15 +213,15 @@ func (tr *Tree) HasNextPostOrderTraverse() bool {
 }
 func (tr *Tree) ResetPostOrderTraverse() {
 	// TODO:: 这里需要补充
-	tr._lazyPostOrderStack = make([]*Node, 0, tr.count+1)
+	tr._lazyPostOrderStack = make([]*node, 0, tr.count+1)
 	if tr.root != nil {
 		tr._lazyPostOrderStack = append(tr._lazyPostOrderStack, tr.root)
 	}
 }
 
-func (tr *Tree) initlazyPostOrderStack(node *Node) {
+func (tr *Tree) initlazyPostOrderStack(n *node) {
 	// TODO:: 这里需要补充
-	tr._lazyPostOrderStack = make([]*Node, 0, tr.count+1)
+	tr._lazyPostOrderStack = make([]*node, 0, tr.count+1)
 	if tr.root != nil {
 		tr._lazyPostOrderStack = append(tr._lazyPostOrderStack, tr.root)
 	}
@@ -263,10 +263,7 @@ func (tr *Tree) initType(v tree.Comparabler) {
 	tr._type = _type.PkgPath() + "." + _type.Name()
 }
 
-func (root *Node) search(node *Node) *Node {
-	if node == nil || root == nil {
-		return nil
-	}
+func (root *node) search(node *node) *node {
 	cmp := node.val.Compare(root.val)
 	if cmp == tree.CompareResultEqual {
 		return root
@@ -284,15 +281,7 @@ func (root *Node) search(node *Node) *Node {
 	return nil
 }
 
-func (root *Node) add(node *Node) error {
-	if node == nil {
-		return tree.ErrIllegalParams
-	}
-	if root == nil {
-		root = node
-		return nil
-	}
-
+func (root *node) add(node *node) error {
 	cmp := node.val.Compare(root.val)
 	if cmp == tree.CompareResultEqual {
 		if len(root.vals) == 0 {
@@ -320,10 +309,7 @@ func (root *Node) add(node *Node) error {
 	return tree.ErrUndefinedCompareResult
 }
 
-func (root *Node) del(pre, node *Node) bool {
-	if root == nil || node == nil {
-		return false
-	}
+func (root *node) del(pre, node *node) bool {
 	cmp := node.val.Compare(root.val)
 	if cmp == tree.CompareResultEqual {
 		// 如果节点的元素不止一个,则摘除一个元素直接返回
@@ -392,7 +378,7 @@ func (root *Node) del(pre, node *Node) bool {
 	return false
 }
 
-func (root *Node) delRoot() bool {
+func (root *node) delRoot() bool {
 	// 没有子树
 	if root.left == nil && root.right == nil {
 		root = nil
@@ -424,8 +410,8 @@ func (root *Node) delRoot() bool {
 	return false
 }
 
-func (root *Node) popMinNode(pre *Node) *Node {
-	if root == nil || pre == nil {
+func (root *node) popMinNode(pre *node) *node {
+	if pre == nil {
 		return nil
 	}
 	if root.left != nil {
@@ -441,11 +427,8 @@ func (root *Node) popMinNode(pre *Node) *Node {
 	return root
 }
 
-func (root *Node) update(node *Node) bool {
+func (root *node) update(node *node) bool {
 	// 目前看起来没有什么用的更新
-	if node == nil || root == nil {
-		return false
-	}
 	if res := root.search(node); res != nil {
 		if res.val.Compare(node.val) != tree.CompareResultEqual {
 			res.val = node.val
@@ -456,11 +439,8 @@ func (root *Node) update(node *Node) bool {
 	return false
 }
 
-func (root *Node) postOrderTraverse() []*Node {
-	if root == nil {
-		return nil
-	}
-	result := []*Node{}
+func (root *node) postOrderTraverse() []*node {
+	result := []*node{}
 	if root.left != nil {
 		result = append(result, root.left.postOrderTraverse()...)
 	}
@@ -471,11 +451,8 @@ func (root *Node) postOrderTraverse() []*Node {
 	return result
 }
 
-func (root *Node) preOrderTraverse() []*Node {
-	if root == nil {
-		return nil
-	}
-	result := []*Node{root}
+func (root *node) preOrderTraverse() []*node {
+	result := []*node{root}
 	if root.left != nil {
 		result = append(result, root.left.preOrderTraverse()...)
 	}
@@ -485,11 +462,8 @@ func (root *Node) preOrderTraverse() []*Node {
 	return result
 }
 
-func (root *Node) inOrderTraverse() []*Node {
-	if root == nil {
-		return nil
-	}
-	result := []*Node{}
+func (root *node) inOrderTraverse() []*node {
+	result := []*node{}
 	if root.left != nil {
 		result = append(result, root.left.inOrderTraverse()...)
 	}

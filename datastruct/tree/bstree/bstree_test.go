@@ -39,35 +39,35 @@ func (a Float) Compare(b tree.Comparabler) tree.CompareResult {
 	return tree.CompareResultEqual
 }
 
-func TestNode_Value(t *testing.T) {
+func Test_node_Value(t *testing.T) {
 	tests := []struct {
 		name string
-		tr   *Node
+		n    *node
 		want tree.Comparabler
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.tr.Value(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Node.Value() = %v, want %v", got, tt.want)
+			if got := tt.n.Value(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("node.Value() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestNode_Values(t *testing.T) {
+func Test_node_Values(t *testing.T) {
 	tests := []struct {
 		name string
-		tr   *Node
+		n    *node
 		want []tree.Comparabler
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.tr.Values(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Node.Values() = %v, want %v", got, tt.want)
+			if got := tt.n.Values(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("node.Values() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -95,7 +95,7 @@ func TestTree_Search(t *testing.T) {
 	}
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 		args args
 		want tree.Noder
 	}{
@@ -103,7 +103,7 @@ func TestTree_Search(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.g.Search(tt.args.v); !reflect.DeepEqual(got, tt.want) {
+			if got := tt.tr.Search(tt.args.v); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Tree.Search() = %v, want %v", got, tt.want)
 			}
 		})
@@ -116,14 +116,14 @@ func TestTree_Add(t *testing.T) {
 	}
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 		args args
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.g.Add(tt.args.v)
+			tt.tr.Add(tt.args.v)
 		})
 	}
 }
@@ -134,14 +134,14 @@ func TestTree_Del(t *testing.T) {
 	}
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 		args args
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.g.Del(tt.args.v)
+			tt.tr.Del(tt.args.v)
 		})
 	}
 }
@@ -152,14 +152,14 @@ func TestTree_Update(t *testing.T) {
 	}
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 		args args
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.g.Update(tt.args.v)
+			tt.tr.Update(tt.args.v)
 		})
 	}
 }
@@ -167,14 +167,14 @@ func TestTree_Update(t *testing.T) {
 func TestTree_PostOrderTraverse(t *testing.T) {
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 		want []tree.Noder
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.g.PostOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
+			if got := tt.tr.PostOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Tree.PostOrderTraverse() = %v, want %v", got, tt.want)
 			}
 		})
@@ -184,14 +184,14 @@ func TestTree_PostOrderTraverse(t *testing.T) {
 func TestTree_PreOrderTraverse(t *testing.T) {
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 		want []tree.Noder
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.g.PreOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
+			if got := tt.tr.PreOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Tree.PreOrderTraverse() = %v, want %v", got, tt.want)
 			}
 		})
@@ -201,16 +201,178 @@ func TestTree_PreOrderTraverse(t *testing.T) {
 func TestTree_InOrderTraverse(t *testing.T) {
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 		want []tree.Noder
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.g.InOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
+			if got := tt.tr.InOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Tree.InOrderTraverse() = %v, want %v", got, tt.want)
 			}
+		})
+	}
+}
+
+func TestTree_LazyPreOrderTraverse(t *testing.T) {
+	tests := []struct {
+		name string
+		tr   *Tree
+		want tree.Noder
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.tr.LazyPreOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Tree.LazyPreOrderTraverse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestTree_HasNextPreOrderTraverse(t *testing.T) {
+	tests := []struct {
+		name string
+		tr   *Tree
+		want bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.tr.HasNextPreOrderTraverse(); got != tt.want {
+				t.Errorf("Tree.HasNextPreOrderTraverse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestTree_ResetPreOrderTraverse(t *testing.T) {
+	tests := []struct {
+		name string
+		tr   *Tree
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.tr.ResetPreOrderTraverse()
+		})
+	}
+}
+
+func TestTree_LazyInOrderTraverse(t *testing.T) {
+	tests := []struct {
+		name string
+		tr   *Tree
+		want tree.Noder
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.tr.LazyInOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Tree.LazyInOrderTraverse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestTree_HasNextInOrderTraverse(t *testing.T) {
+	tests := []struct {
+		name string
+		tr   *Tree
+		want bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.tr.HasNextInOrderTraverse(); got != tt.want {
+				t.Errorf("Tree.HasNextInOrderTraverse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestTree_ResetInOrderTraverse(t *testing.T) {
+	tests := []struct {
+		name string
+		tr   *Tree
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.tr.ResetInOrderTraverse()
+		})
+	}
+}
+
+func TestTree_LazyPostOrderTraverse(t *testing.T) {
+	tests := []struct {
+		name string
+		tr   *Tree
+		want tree.Noder
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.tr.LazyPostOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Tree.LazyPostOrderTraverse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestTree_HasNextPostOrderTraverse(t *testing.T) {
+	tests := []struct {
+		name string
+		tr   *Tree
+		want bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.tr.HasNextPostOrderTraverse(); got != tt.want {
+				t.Errorf("Tree.HasNextPostOrderTraverse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestTree_ResetPostOrderTraverse(t *testing.T) {
+	tests := []struct {
+		name string
+		tr   *Tree
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.tr.ResetPostOrderTraverse()
+		})
+	}
+}
+
+func TestTree_initlazyPostOrderStack(t *testing.T) {
+	type args struct {
+		n *node
+	}
+	tests := []struct {
+		name string
+		tr   *Tree
+		args args
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.tr.initlazyPostOrderStack(tt.args.n)
 		})
 	}
 }
@@ -218,14 +380,14 @@ func TestTree_InOrderTraverse(t *testing.T) {
 func TestTree_Count(t *testing.T) {
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 		want int
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.g.Count(); got != tt.want {
+			if got := tt.tr.Count(); got != tt.want {
 				t.Errorf("Tree.Count() = %v, want %v", got, tt.want)
 			}
 		})
@@ -235,14 +397,14 @@ func TestTree_Count(t *testing.T) {
 func TestTree_Err(t *testing.T) {
 	tests := []struct {
 		name    string
-		g       *Tree
+		tr      *Tree
 		wantErr bool
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := tt.g.Err(); (err != nil) != tt.wantErr {
+			if err := tt.tr.Err(); (err != nil) != tt.wantErr {
 				t.Errorf("Tree.Err() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -252,14 +414,14 @@ func TestTree_Err(t *testing.T) {
 func TestTree_Type(t *testing.T) {
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 		want string
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.g.Type(); got != tt.want {
+			if got := tt.tr.Type(); got != tt.want {
 				t.Errorf("Tree.Type() = %v, want %v", got, tt.want)
 			}
 		})
@@ -269,13 +431,13 @@ func TestTree_Type(t *testing.T) {
 func TestTree_resetErr(t *testing.T) {
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.g.resetErr()
+			tt.tr.resetErr()
 		})
 	}
 }
@@ -283,13 +445,13 @@ func TestTree_resetErr(t *testing.T) {
 func TestTree_resetType(t *testing.T) {
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.g.resetType()
+			tt.tr.resetType()
 		})
 	}
 }
@@ -300,7 +462,7 @@ func TestTree_isSameType(t *testing.T) {
 	}
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 		args args
 		want bool
 	}{
@@ -308,7 +470,7 @@ func TestTree_isSameType(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.g.isSameType(tt.args.v); got != tt.want {
+			if got := tt.tr.isSameType(tt.args.v); got != tt.want {
 				t.Errorf("Tree.isSameType() = %v, want %v", got, tt.want)
 			}
 		})
@@ -321,46 +483,46 @@ func TestTree_initType(t *testing.T) {
 	}
 	tests := []struct {
 		name string
-		g    *Tree
+		tr   *Tree
 		args args
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.g.initType(tt.args.v)
+			tt.tr.initType(tt.args.v)
 		})
 	}
 }
 
-func TestNode_search(t *testing.T) {
+func Test_node_search(t *testing.T) {
 	type args struct {
-		node *Node
+		node *node
 	}
 	tests := []struct {
 		name string
-		root *Node
+		root *node
 		args args
-		want *Node
+		want *node
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.root.search(tt.args.node); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Node.search() = %v, want %v", got, tt.want)
+				t.Errorf("node.search() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestNode_add(t *testing.T) {
+func Test_node_add(t *testing.T) {
 	type args struct {
-		node *Node
+		node *node
 	}
 	tests := []struct {
 		name    string
-		root    *Node
+		root    *node
 		args    args
 		wantErr bool
 	}{
@@ -369,20 +531,20 @@ func TestNode_add(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := tt.root.add(tt.args.node); (err != nil) != tt.wantErr {
-				t.Errorf("Node.add() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("node.add() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestNode_del(t *testing.T) {
+func Test_node_del(t *testing.T) {
 	type args struct {
-		pre  *Node
-		node *Node
+		pre  *node
+		node *node
 	}
 	tests := []struct {
 		name string
-		root *Node
+		root *node
 		args args
 		want bool
 	}{
@@ -391,16 +553,16 @@ func TestNode_del(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.root.del(tt.args.pre, tt.args.node); got != tt.want {
-				t.Errorf("Node.del() = %v, want %v", got, tt.want)
+				t.Errorf("node.del() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestNode_delRoot(t *testing.T) {
+func Test_node_delRoot(t *testing.T) {
 	tests := []struct {
 		name string
-		root *Node
+		root *node
 		want bool
 	}{
 		// TODO: Add test cases.
@@ -408,40 +570,40 @@ func TestNode_delRoot(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.root.delRoot(); got != tt.want {
-				t.Errorf("Node.delRoot() = %v, want %v", got, tt.want)
+				t.Errorf("node.delRoot() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestNode_popMinNode(t *testing.T) {
+func Test_node_popMinNode(t *testing.T) {
 	type args struct {
-		pre *Node
+		pre *node
 	}
 	tests := []struct {
 		name string
-		root *Node
+		root *node
 		args args
-		want *Node
+		want *node
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.root.popMinNode(tt.args.pre); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Node.popMinNode() = %v, want %v", got, tt.want)
+				t.Errorf("node.popMinNode() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestNode_update(t *testing.T) {
+func Test_node_update(t *testing.T) {
 	type args struct {
-		node *Node
+		node *node
 	}
 	tests := []struct {
 		name string
-		root *Node
+		root *node
 		args args
 		want bool
 	}{
@@ -450,58 +612,58 @@ func TestNode_update(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.root.update(tt.args.node); got != tt.want {
-				t.Errorf("Node.update() = %v, want %v", got, tt.want)
+				t.Errorf("node.update() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestNode_postOrderTraverse(t *testing.T) {
+func Test_node_postOrderTraverse(t *testing.T) {
 	tests := []struct {
 		name string
-		root *Node
-		want []*Node
+		root *node
+		want []*node
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.root.postOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Node.postOrderTraverse() = %v, want %v", got, tt.want)
+				t.Errorf("node.postOrderTraverse() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestNode_preOrderTraverse(t *testing.T) {
+func Test_node_preOrderTraverse(t *testing.T) {
 	tests := []struct {
 		name string
-		root *Node
-		want []*Node
+		root *node
+		want []*node
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.root.preOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Node.preOrderTraverse() = %v, want %v", got, tt.want)
+				t.Errorf("node.preOrderTraverse() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestNode_inOrderTraverse(t *testing.T) {
+func Test_node_inOrderTraverse(t *testing.T) {
 	tests := []struct {
 		name string
-		root *Node
-		want []*Node
+		root *node
+		want []*node
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.root.inOrderTraverse(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Node.inOrderTraverse() = %v, want %v", got, tt.want)
+				t.Errorf("node.inOrderTraverse() = %v, want %v", got, tt.want)
 			}
 		})
 	}
