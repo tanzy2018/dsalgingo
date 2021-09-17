@@ -49,9 +49,13 @@ func preHandleInput(v interface{}) (string, bool) {
 }
 
 func NewSimpleEnglishTrie(isCaseSensitive bool) *SimpleEnglishTrie {
+	children := [26]*simpleEnglishTrieNode{}
+	for i, _ := range children {
+		children[i] = &simpleEnglishTrieNode{}
+	}
 	return &SimpleEnglishTrie{
 		isCaseSensitive: isCaseSensitive,
-		root:            &simpleEnglishTrieNode{},
+		root:            &simpleEnglishTrieNode{children: children},
 	}
 }
 
@@ -62,9 +66,6 @@ func (s *SimpleEnglishTrie) Insert(v interface{}) bool {
 	}
 	word := []byte(strings.ToLower(raw))
 	index := word[0] - 'a'
-	if s.root.children[index] == nil {
-		s.root.children[index] = &simpleEnglishTrieNode{}
-	}
 	if s.root.children[index].insert(word, 0, raw, s.isCaseSensitive) {
 		s.words++
 	}
@@ -78,9 +79,6 @@ func (s *SimpleEnglishTrie) Search(v interface{}) bool {
 	}
 	word := []byte(strings.ToLower(raw))
 	index := word[0] - 'a'
-	if s.root.children[index] == nil {
-		return false
-	}
 	return s.root.children[index].search(word, 0, raw, s.isCaseSensitive)
 }
 
@@ -91,9 +89,6 @@ func (s *SimpleEnglishTrie) StartWith(v interface{}) []interface{} {
 	}
 	word := []byte(strings.ToLower(raw))
 	index := word[0] - 'a'
-	if s.root.children[index] == nil {
-		return nil
-	}
 	res := s.root.children[index].startWith(word, 0, raw)
 	if len(res) > 0 {
 		return strings2interfaces(res)
