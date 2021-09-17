@@ -89,7 +89,7 @@ func (s *SimpleEnglishTrie) StartWith(v interface{}) []interface{} {
 	}
 	word := []byte(strings.ToLower(raw))
 	index := word[0] - 'a'
-	res := s.root.children[index].startWith(word, 0, raw)
+	res := s.root.children[index].startWith(word, 0)
 	if len(res) > 0 {
 		return strings2interfaces(res)
 	}
@@ -149,7 +149,7 @@ func (s *simpleEnglishTrieNode) search(word []byte, i int, raw string, isCaseSen
 	return s.children[index].search(word, i+1, raw, isCaseSensitive)
 }
 
-func (s *simpleEnglishTrieNode) startWith(word []byte, i int, raw string) []string {
+func (s *simpleEnglishTrieNode) startWith(word []byte, i int) []string {
 	if i == len(word)-1 {
 		return s.traverseWords()
 	}
@@ -157,7 +157,7 @@ func (s *simpleEnglishTrieNode) startWith(word []byte, i int, raw string) []stri
 	if s.children[index] == nil {
 		return nil
 	}
-	return s.children[index].startWith(word, i+1, raw)
+	return s.children[index].startWith(word, i+1)
 }
 
 func (s *simpleEnglishTrieNode) traverseWords() []string {
